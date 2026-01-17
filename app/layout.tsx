@@ -12,11 +12,6 @@ export const metadata: Metadata = {
   title: "Plesnicar Solutions - IT, Grafikdesign & BAU/Hausbetreuung",
   description: "Österreichisches Ein-Personen-Unternehmen für IT-Beratung, digitale Lösungen, Grafikdesign, BAU/Hausbetreuung und Handel. Schnell, zuverlässig, modern.",
   keywords: "IT Beratung, Grafikdesign, Hausbetreuung, digitale Lösungen, Österreich, Boris Plesnicar",
-  icons: {
-    icon: "/logos/bp.jpg",
-    shortcut: "/logos/bp.jpg",
-    apple: "/logos/bp.jpg",
-  },
 };
 
 export default function RootLayout({
