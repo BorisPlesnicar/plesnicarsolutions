@@ -27,7 +27,8 @@ import {
   Users,
   Target,
   BarChart3,
-  Phone
+  Phone,
+  Instagram
 } from "lucide-react";
 
 export default function Home() {
@@ -129,10 +130,6 @@ export default function Home() {
               className="h-14 md:h-16 w-auto"
           priority
         />
-            <div className="hidden lg:flex items-center gap-2 px-3 py-1.5 bg-white/5 rounded-lg border border-white/10">
-              <div className="w-2 h-2 rounded-full bg-[#ff1900] animate-pulse" />
-              <span className="text-xs font-medium text-white/70">Verfügbar</span>
-            </div>
           </div>
           <div className="hidden lg:flex items-center gap-1">
             <button
@@ -804,6 +801,67 @@ export default function Home() {
                   {isSubmitting ? "Wird gesendet..." : "Nachricht senden"}
                 </button>
               </form>
+              
+              {/* Additional Info */}
+              <div className="mt-6 p-6 bg-white/5 backdrop-blur-sm border border-white/10 rounded-xl">
+                <h4 className="font-semibold text-white mb-4">Direkter Kontakt</h4>
+                <div className="space-y-4">
+                  {/* Boris Plesnicar */}
+                  <div>
+                    <p className="font-semibold text-white mb-2">Boris Plesnicar (IT)</p>
+                    <div className="space-y-1.5">
+                      <a 
+                        href="tel:+436644678382" 
+                        className="flex items-center gap-2 text-white/80 hover:text-[#ff1900] transition-colors duration-200 text-sm"
+                      >
+                        <Phone className="w-4 h-4" strokeWidth={2} />
+                        <span>+43 664 4678382</span>
+                      </a>
+                      <a 
+                        href="mailto:plesnicaroffice@gmail.com" 
+                        className="flex items-center gap-2 text-white/80 hover:text-[#ff1900] transition-colors duration-200 text-sm"
+                      >
+                        <Mail className="w-4 h-4" strokeWidth={2} />
+                        <span>plesnicaroffice@gmail.com</span>
+                      </a>
+                    </div>
+                  </div>
+                  
+                  {/* Dietmar Plesnicar */}
+                  <div className="pt-3 border-t border-white/10">
+                    <p className="font-semibold text-white mb-2">Ing. Dietmar Plesnicar (Bau)</p>
+                    <div className="space-y-1.5">
+                      <a 
+                        href="tel:+436763206308" 
+                        className="flex items-center gap-2 text-white/80 hover:text-[#ff1900] transition-colors duration-200 text-sm"
+                      >
+                        <Phone className="w-4 h-4" strokeWidth={2} />
+                        <span>+43 676 3206308</span>
+                      </a>
+                      <a 
+                        href="mailto:plesnicaroffice@gmail.com" 
+                        className="flex items-center gap-2 text-white/80 hover:text-[#ff1900] transition-colors duration-200 text-sm"
+                      >
+                        <Mail className="w-4 h-4" strokeWidth={2} />
+                        <span>plesnicaroffice@gmail.com</span>
+                      </a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              
+              <div className="mt-4 p-6 bg-gradient-to-br from-[#ff1900]/10 to-transparent border border-[#ff1900]/20 rounded-xl">
+                <div className="flex items-start gap-4">
+                  <Clock className="w-5 h-5 text-[#ff1900] flex-shrink-0 mt-0.5" strokeWidth={2} />
+                  <div>
+                    <h4 className="font-semibold text-white mb-2">Schnelle Antwort</h4>
+                    <p className="text-white/80 font-light text-sm leading-relaxed">
+                      Wir melden uns innerhalb von <span className="text-white font-medium">24 Stunden</span> bei Ihnen zurück. 
+                      Für dringende Anliegen kontaktieren Sie uns gerne direkt per Telefon.
+                    </p>
+                  </div>
+                </div>
+              </div>
             </div>
 
             {/* Contact Info */}
@@ -850,6 +908,23 @@ export default function Home() {
                       </div>
                     );
                   })}
+                  {/* Social Media */}
+                  <div className="pt-4 border-t border-white/10">
+                    <a 
+                      href="https://www.instagram.com/plesnicarsolutions/" 
+                      target="_blank" 
+                      rel="noopener noreferrer"
+                      className="flex items-center gap-4 group hover:opacity-80 transition-opacity duration-200"
+                    >
+                      <div className="flex-shrink-0 w-10 h-10 rounded-lg bg-[#ff1900]/20 flex items-center justify-center group-hover:bg-[#ff1900]/30 transition-colors duration-200">
+                        <Instagram className="w-5 h-5 text-[#ff1900]" strokeWidth={2} />
+                      </div>
+                      <div>
+                        <p className="font-semibold text-white mb-1">Instagram</p>
+                        <p className="text-white/70 font-light text-sm">@plesnicarsolutions</p>
+                      </div>
+                    </a>
+                  </div>
                 </div>
               </div>
 
@@ -881,7 +956,16 @@ export default function Home() {
               <p className="font-bold text-white mb-1">Boris Plesnicar e.U.</p>
               <p className="font-light text-sm text-white/60">© {new Date().getFullYear()} Plesnicar Solutions. Alle Rechte vorbehalten.</p>
             </div>
-            <div className="flex gap-6">
+            <div className="flex items-center gap-6">
+              <a 
+                href="https://www.instagram.com/plesnicarsolutions/" 
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="text-white/60 hover:text-[#ff1900] transition-colors duration-200"
+                aria-label="Instagram"
+              >
+                <Instagram className="w-5 h-5" strokeWidth={2} />
+              </a>
               <Link href="/impressum" className="text-white/60 hover:text-white transition-colors duration-200 font-medium text-sm">
                 Impressum
               </Link>

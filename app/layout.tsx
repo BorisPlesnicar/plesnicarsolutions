@@ -9,8 +9,8 @@ const montserrat = Montserrat({
 });
 
 export const metadata: Metadata = {
-  title: "Plesnicar Solutions - IT, Grafikdesign & BAU/Hausbetreuung",
-  description: "Österreichisches Ein-Personen-Unternehmen für IT-Beratung, digitale Lösungen, Grafikdesign, BAU/Hausbetreuung und Handel. Schnell, zuverlässig, modern.",
+  title: "Plesnicar Solutions - IT & Bau",
+  description: "Österreichisches Kleinunternehmen für IT-Beratung, digitale Lösungen, Grafikdesign, Bau/Hausbetreuung und Handel. Schnell, zuverlässig, modern.",
   keywords: "IT Beratung, Grafikdesign, Hausbetreuung, digitale Lösungen, Österreich, Boris Plesnicar",
 };
 
