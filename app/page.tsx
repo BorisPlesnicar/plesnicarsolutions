@@ -325,8 +325,8 @@ export default function Home() {
                   Schwerpunkte
                 </p>
                 <p className="text-xs md:text-sm text-white/85 leading-relaxed">
-                  Individuell konfigurierte PCs, moderne IT-Infrastruktur und praxisorientierte Bau- und Hausbetreuung – 
-                  abgestimmt auf Unternehmen und Privathaushalte.
+                  Individuell konfigurierte PCs, Grafikdesign und praxisorientierte Bau- und Hausbetreuung inkl. Handel
+                  abgestimmt für Sie.
                 </p>
               </div>
               <div className="grid grid-cols-2 gap-3">
