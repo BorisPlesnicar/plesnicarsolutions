@@ -494,7 +494,7 @@ export default function Home() {
                 name: "Ing. Dietmar Plesnicar",
                 role: "Bau-Beratung & Handel",
                 education: "Ingenieur",
-                image: "/portraits/dietmar.jpg",
+                image: "/portraits/dietmar.png",
                 expertise: [
                   "40+ Jahre Erfahrung im Bauwesen",
                   "Bauberatung und Projektplanung",
