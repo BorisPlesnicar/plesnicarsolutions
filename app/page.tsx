@@ -27,16 +27,12 @@ import {
   Target,
   BarChart3,
   Phone,
-  Instagram,
-  Copy,
-  ChevronUp
+  Instagram
 } from "lucide-react";
 
 export default function Home() {
   const [isVisible, setIsVisible] = useState<{ [key: string]: boolean }>({});
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const [quickOpen, setQuickOpen] = useState(false);
-  const [copied, setCopied] = useState(false);
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -64,20 +60,7 @@ export default function Home() {
     if (element) {
       element.scrollIntoView({ behavior: "smooth", block: "start" });
       setMobileMenuOpen(false);
-      setQuickOpen(false);
     }
-  };
-
-  const copyEmail = async (email: string) => {
-    try {
-      await navigator.clipboard.writeText(email);
-      setCopied(true);
-      setTimeout(() => setCopied(false), 2000);
-    } catch (err) {
-      console.error("Clipboard error", err);
-      alert("E-Mail konnte nicht kopiert werden. Bitte manuell kopieren: " + email);
-    }
-    setQuickOpen(false);
   };
 
   return (
@@ -884,75 +867,6 @@ export default function Home() {
           </div>
         </div>
       </section>
-
-      {/* Floating Quick Actions */}
-      <div className="fixed bottom-6 right-6 z-50 flex flex-col items-end gap-3">
-        {quickOpen && (
-          <div className="w-64 p-4 rounded-2xl bg-[#1c1c1c]/95 border border-white/10 shadow-2xl backdrop-blur-md space-y-3">
-            <div className="text-sm font-semibold text-white mb-1">Schnellzugriff</div>
-            <div className="space-y-2">
-              <a
-                href="tel:+436644678382"
-                className="flex items-center gap-3 px-3 py-2 rounded-lg bg-white/5 hover:bg-white/10 border border-white/10 text-white text-sm transition-all"
-              >
-                <Phone className="w-4 h-4 text-[#ff1900]" strokeWidth={2} />
-                <span>Boris anrufen</span>
-              </a>
-              <a
-                href="tel:+436763206308"
-                className="flex items-center gap-3 px-3 py-2 rounded-lg bg-white/5 hover:bg-white/10 border border-white/10 text-white text-sm transition-all"
-              >
-                <Phone className="w-4 h-4 text-[#ff1900]" strokeWidth={2} />
-                <span>Dietmar anrufen</span>
-              </a>
-              <button
-                onClick={() => copyEmail("plesnicaroffice@gmail.com")}
-                className="w-full flex items-center gap-3 px-3 py-2 rounded-lg bg-white/5 hover:bg-white/10 border border-white/10 text-white text-sm transition-all"
-              >
-                <Copy className="w-4 h-4 text-[#ff1900]" strokeWidth={2} />
-                <span>E-Mail kopieren</span>
-              </button>
-              <button
-                onClick={() => scrollToSection("kontakt")}
-                className="w-full flex items-center gap-3 px-3 py-2 rounded-lg bg-white/5 hover:bg-white/10 border border-white/10 text-white text-sm transition-all"
-              >
-                <MapPin className="w-4 h-4 text-[#ff1900]" strokeWidth={2} />
-                <span>Zum Kontakt</span>
-              </button>
-              <a
-                href="https://www.instagram.com/plesnicarsolutions/"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="flex items-center gap-3 px-3 py-2 rounded-lg bg-white/5 hover:bg-white/10 border border-white/10 text-white text-sm transition-all"
-              >
-                <Instagram className="w-4 h-4 text-[#ff1900]" strokeWidth={2} />
-                <span>Instagram</span>
-              </a>
-              <button
-                onClick={() => {
-                  window.scrollTo({ top: 0, behavior: "smooth" });
-                  setQuickOpen(false);
-                }}
-                className="w-full flex items-center gap-3 px-3 py-2 rounded-lg bg-white/5 hover:bg-white/10 border border-white/10 text-white text-sm transition-all"
-              >
-                <ChevronUp className="w-4 h-4 text-[#ff1900]" strokeWidth={2} />
-                <span>Nach oben</span>
-              </button>
-            </div>
-            {copied && (
-              <div className="text-xs text-[#ff1900] font-semibold">E-Mail kopiert</div>
-            )}
-          </div>
-        )}
-
-        <button
-          onClick={() => setQuickOpen((p) => !p)}
-          className="w-14 h-14 rounded-full bg-[#ff1900] hover:bg-[#e61700] text-white shadow-2xl shadow-[#ff1900]/30 flex items-center justify-center text-lg font-bold transition-transform duration-200 hover:-translate-y-0.5"
-          aria-label="Schnellzugriff öffnen"
-        >
-          {quickOpen ? <X className="w-6 h-6" strokeWidth={2} /> : <Phone className="w-6 h-6" strokeWidth={2} />}
-        </button>
-      </div>
 
       {/* Footer */}
       <footer className="py-10 px-6 border-t border-white/5 bg-black/20">
