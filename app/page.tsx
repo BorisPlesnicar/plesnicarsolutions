@@ -202,22 +202,23 @@ export default function Home() {
       </header>
 
       {/* Hero Section */}
-      <section id="hero" className="relative overflow-hidden pt-28 pb-14" data-animate>
+      <section id="hero" className="relative overflow-hidden pt-24 pb-12 md:pt-28 md:pb-14" data-animate>
         {/* Background Image */}
         <div className="absolute inset-0 z-0">
           <div className="absolute inset-0 bg-gradient-to-b from-[#212121]/60 via-[#212121]/85 to-[#212121] z-10" />
           <Image
-            src="https://images.unsplash.com/photo-1550751827-4bd374c3f58b?q=80&w=2070&auto=format&fit=crop"
+            src="https://images.unsplash.com/photo-1550751827-4bd374c3f58b?q=60&w=1400&auto=format&fit=crop"
             alt="Modern Technology Background"
             fill
-            className="object-cover scale-105"
+            className="object-cover"
             priority
-            quality={90}
+            quality={70}
+            sizes="100vw"
           />
         </div>
 
         {/* Animated Grid Overlay */}
-        <div className="absolute inset-0 z-20 opacity-[0.04]">
+        <div className="hidden md:block absolute inset-0 z-20 opacity-[0.04]">
           <div className="h-full w-full" style={{
             backgroundImage: `linear-gradient(rgba(255, 25, 0, 0.3) 1px, transparent 1px),
                               linear-gradient(90deg, rgba(255, 25, 0, 0.3) 1px, transparent 1px)`,
@@ -226,9 +227,9 @@ export default function Home() {
         </div>
 
         {/* Floating Elements */}
-        <div className="absolute inset-0 z-20 pointer-events-none">
-          <div className="absolute top-1/4 right-1/4 w-32 h-32 bg-[#ff1900]/10 rounded-full blur-3xl" />
-          <div className="absolute bottom-1/4 left-1/4 w-40 h-40 bg-[#ff1900]/5 rounded-full blur-3xl" />
+        <div className="hidden md:block absolute inset-0 z-20 pointer-events-none">
+          <div className="absolute top-1/4 right-1/4 w-32 h-32 bg-[#ff1900]/10 rounded-full blur-2xl" />
+          <div className="absolute bottom-1/4 left-1/4 w-40 h-40 bg-[#ff1900]/5 rounded-full blur-2xl" />
         </div>
 
         {/* Content */}
