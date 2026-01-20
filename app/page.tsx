@@ -16,7 +16,6 @@ import {
   MapPin,
   Building2,
   Globe,
-  Send,
   Menu,
   X,
   CheckCircle2,
@@ -32,13 +31,7 @@ import {
 } from "lucide-react";
 
 export default function Home() {
-  const [formData, setFormData] = useState({
-    name: "",
-    email: "",
-    message: "",
-  });
   const [isVisible, setIsVisible] = useState<{ [key: string]: boolean }>({});
-  const [isSubmitting, setIsSubmitting] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   useEffect(() => {
@@ -61,46 +54,6 @@ export default function Home() {
       observer.disconnect();
     };
   }, []);
-
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    if (isSubmitting) return;
-
-    try {
-      setIsSubmitting(true);
-      const response = await fetch("/api/contact", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(formData),
-      });
-
-      // Prüfe ob Response JSON ist
-      const contentType = response.headers.get("content-type");
-      if (!contentType || !contentType.includes("application/json")) {
-        const text = await response.text();
-        console.error("API hat kein JSON zurückgegeben:", text.substring(0, 200));
-        alert("Es ist ein Fehler beim Versenden Ihrer Nachricht aufgetreten. Bitte versuchen Sie es später erneut.");
-        return;
-      }
-
-      const data = await response.json();
-      if (!response.ok || !data.success) {
-        console.error("Kontaktformular Fehler:", data?.error);
-        alert(data?.error || "Es ist ein Fehler beim Versenden Ihrer Nachricht aufgetreten. Bitte versuchen Sie es später erneut.");
-        return;
-      }
-
-      alert("Vielen Dank für Ihre Nachricht! Wir melden uns schnellstmöglich bei Ihnen.");
-      setFormData({ name: "", email: "", message: "" });
-    } catch (error) {
-      console.error("Kontaktformular Fehler:", error);
-      alert("Es ist ein Fehler beim Versenden Ihrer Nachricht aufgetreten. Bitte versuchen Sie es später erneut.");
-    } finally {
-      setIsSubmitting(false);
-    }
-  };
 
   const scrollToSection = (id: string) => {
     const element = document.getElementById(id);
@@ -747,110 +700,66 @@ export default function Home() {
           </div>
 
           <div className={`grid md:grid-cols-2 gap-12 transition-opacity duration-1000 ${isVisible['kontakt'] ? 'opacity-100' : 'opacity-0'}`}>
-            {/* Contact Form */}
+            {/* Direkter Kontakt */}
             <div className="p-10 bg-white/5 backdrop-blur-sm border border-white/10 rounded-2xl">
-              <form onSubmit={handleSubmit} className="space-y-6">
-                <div>
-                  <label htmlFor="name" className="block text-sm font-semibold mb-3 text-white/90">
-                    Name
-                  </label>
-                  <input
-                    type="text"
-                    id="name"
-                    value={formData.name}
-                    onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                    required
-                    className="w-full px-5 py-4 bg-white/5 border border-white/20 rounded-lg focus:outline-none focus:border-[#ff1900] focus:ring-2 focus:ring-[#ff1900]/20 transition-all duration-200 font-light hover:bg-white/10"
-                    placeholder="Ihr Name"
-                  />
-                </div>
-                <div>
-                  <label htmlFor="email" className="block text-sm font-semibold mb-3 text-white/90">
-                    E-Mail
-                  </label>
-                  <input
-                    type="email"
-                    id="email"
-                    value={formData.email}
-                    onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                    required
-                    className="w-full px-5 py-4 bg-white/5 border border-white/20 rounded-lg focus:outline-none focus:border-[#ff1900] focus:ring-2 focus:ring-[#ff1900]/20 transition-all duration-200 font-light hover:bg-white/10"
-                    placeholder="ihre@email.com"
-                  />
-                </div>
-                <div>
-                  <label htmlFor="message" className="block text-sm font-semibold mb-3 text-white/90">
-                    Nachricht
-                  </label>
-                  <textarea
-                    id="message"
-                    value={formData.message}
-                    onChange={(e) => setFormData({ ...formData, message: e.target.value })}
-                    required
-                    rows={6}
-                    className="w-full px-5 py-4 bg-white/5 border border-white/20 rounded-lg focus:outline-none focus:border-[#ff1900] focus:ring-2 focus:ring-[#ff1900]/20 transition-all duration-200 resize-none font-light hover:bg-white/10"
-                    placeholder="Ihre Nachricht..."
-                  />
-                </div>
-                <button
-                  type="submit"
-                  disabled={isSubmitting}
-                  className="w-full px-8 py-4 bg-[#ff1900] hover:bg-[#e61700] disabled:opacity-60 disabled:cursor-not-allowed text-white text-lg font-semibold rounded-lg transition-colors duration-200 flex items-center justify-center gap-2 shadow-lg shadow-[#ff1900]/20"
-                >
-                  <Send className="w-5 h-5" strokeWidth={2} />
-                  {isSubmitting ? "Wird gesendet..." : "Nachricht senden"}
-                </button>
-              </form>
-              
-              {/* Additional Info */}
-              <div className="mt-6 p-6 bg-white/5 backdrop-blur-sm border border-white/10 rounded-xl">
-                <h4 className="font-semibold text-white mb-4">Direkter Kontakt</h4>
-                <div className="space-y-4">
-                  {/* Boris Plesnicar */}
-                  <div>
-                    <p className="font-semibold text-white mb-2">Boris Plesnicar (IT)</p>
-                    <div className="space-y-1.5">
-                      <a 
-                        href="tel:+436644678382" 
-                        className="flex items-center gap-2 text-white/80 hover:text-[#ff1900] transition-colors duration-200 text-sm"
-                      >
-                        <Phone className="w-4 h-4" strokeWidth={2} />
-                        <span>+43 664 4678382</span>
-                      </a>
-                      <a 
-                        href="mailto:plesnicaroffice@gmail.com" 
-                        className="flex items-center gap-2 text-white/80 hover:text-[#ff1900] transition-colors duration-200 text-sm"
-                      >
-                        <Mail className="w-4 h-4" strokeWidth={2} />
-                        <span>plesnicaroffice@gmail.com</span>
-                      </a>
-                    </div>
+              <h3 className="text-3xl md:text-4xl font-black text-white">
+                Direkter <span className="text-[#ff1900]">Kontakt</span>
+              </h3>
+              <p className="text-white/70 font-light mt-4 text-sm md:text-base leading-relaxed max-w-2xl">
+                Rufen Sie uns an oder schreiben Sie uns. Wir melden uns schnellstmöglich zurück.
+              </p>
+
+              <div className="mt-8 grid gap-6 md:grid-cols-2">
+                {/* Boris */}
+                <div className="p-7 bg-white/5 border border-white/10 rounded-xl h-full">
+                  <p className="text-xl font-bold text-white">
+                    Boris Plesnicar <span className="text-white/60 font-medium">(IT)</span>
+                  </p>
+                  <div className="mt-4 space-y-3">
+                    <a
+                      href="tel:+436644678382"
+                      className="w-full inline-flex items-center justify-center gap-3 px-5 py-3 rounded-lg bg-[#ff1900] hover:bg-[#e61700] text-white font-semibold transition-colors duration-200"
+                    >
+                      <Phone className="w-5 h-5" strokeWidth={2} />
+                      +43 664 4678382
+                    </a>
+                    <a
+                      href="mailto:plesnicaroffice@gmail.com"
+                      title="plesnicaroffice@gmail.com"
+                      className="w-full min-w-0 inline-flex items-center justify-center gap-3 px-5 py-3 rounded-lg bg-white/10 hover:bg-white/20 border border-white/10 text-white font-semibold transition-colors duration-200"
+                    >
+                      <Mail className="w-5 h-5 text-[#ff1900]" strokeWidth={2} />
+                      <span className="truncate text-sm md:text-base">plesnicaroffice@gmail.com</span>
+                    </a>
                   </div>
-                  
-                  {/* Dietmar Plesnicar */}
-                  <div className="pt-3 border-t border-white/10">
-                    <p className="font-semibold text-white mb-2">Ing. Dietmar Plesnicar (Bau)</p>
-                    <div className="space-y-1.5">
-                      <a 
-                        href="tel:+436763206308" 
-                        className="flex items-center gap-2 text-white/80 hover:text-[#ff1900] transition-colors duration-200 text-sm"
-                      >
-                        <Phone className="w-4 h-4" strokeWidth={2} />
-                        <span>+43 676 3206308</span>
-                      </a>
-                      <a 
-                        href="mailto:plesnicaroffice@gmail.com" 
-                        className="flex items-center gap-2 text-white/80 hover:text-[#ff1900] transition-colors duration-200 text-sm"
-                      >
-                        <Mail className="w-4 h-4" strokeWidth={2} />
-                        <span>plesnicaroffice@gmail.com</span>
-                      </a>
-                    </div>
+                </div>
+
+                {/* Dietmar */}
+                <div className="p-7 bg-white/5 border border-white/10 rounded-xl h-full">
+                  <p className="text-xl font-bold text-white">
+                    Ing. Dietmar Plesnicar <span className="text-white/60 font-medium">(Bau)</span>
+                  </p>
+                  <div className="mt-4 space-y-3">
+                    <a
+                      href="tel:+436763206308"
+                      className="w-full inline-flex items-center justify-center gap-3 px-5 py-3 rounded-lg bg-[#ff1900] hover:bg-[#e61700] text-white font-semibold transition-colors duration-200"
+                    >
+                      <Phone className="w-5 h-5" strokeWidth={2} />
+                      +43 676 3206308
+                    </a>
+                    <a
+                      href="mailto:plesnicaroffice@gmail.com"
+                      title="plesnicaroffice@gmail.com"
+                      className="w-full min-w-0 inline-flex items-center justify-center gap-3 px-5 py-3 rounded-lg bg-white/10 hover:bg-white/20 border border-white/10 text-white font-semibold transition-colors duration-200"
+                    >
+                      <Mail className="w-5 h-5 text-[#ff1900]" strokeWidth={2} />
+                      <span className="truncate text-sm md:text-base">plesnicaroffice@gmail.com</span>
+                    </a>
                   </div>
                 </div>
               </div>
               
-              <div className="mt-4 p-6 bg-gradient-to-br from-[#ff1900]/10 to-transparent border border-[#ff1900]/20 rounded-xl">
+              <div className="mt-6 p-6 bg-gradient-to-br from-[#ff1900]/10 to-transparent border border-[#ff1900]/20 rounded-xl">
                 <div className="flex items-start gap-4">
                   <Clock className="w-5 h-5 text-[#ff1900] flex-shrink-0 mt-0.5" strokeWidth={2} />
                   <div>
@@ -861,6 +770,26 @@ export default function Home() {
                     </p>
                   </div>
                 </div>
+              </div>
+
+              <div className="mt-4 p-6 bg-white/5 backdrop-blur-sm border border-white/10 rounded-xl">
+                <h4 className="font-semibold text-white mb-3">Damit wir schnell helfen können</h4>
+                <p className="text-white/70 font-light text-sm leading-relaxed mb-4">
+                  Wenn Sie uns kurz diese Punkte nennen, sparen wir Zeit und können schneller ein passendes Angebot erstellen:
+                </p>
+                <ul className="space-y-2">
+                  {[
+                    "Bereich: IT / Grafikdesign / Bau / Hausbetreuung / Handel",
+                    "Kurzbeschreibung (Ziel / Problem) + gewünschtes Ergebnis",
+                    "Ort (vor Ort oder Remote möglich) + gewünschter Zeitraum",
+                    "Fotos/Skizzen/Links (falls vorhanden)"
+                  ].map((item, idx) => (
+                    <li key={idx} className="flex items-start gap-3 text-white/80">
+                      <CheckCircle2 className="w-4 h-4 text-[#ff1900] mt-0.5 flex-shrink-0" strokeWidth={2} />
+                      <span className="font-light text-sm leading-relaxed">{item}</span>
+                    </li>
+                  ))}
+                </ul>
               </div>
             </div>
 
