@@ -35,6 +35,23 @@ export default function Home() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   useEffect(() => {
+    // Skip IntersectionObserver on mobile for better performance
+    const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+    if (isMobile) {
+      // Show all sections immediately on mobile
+      setIsVisible({
+        'hero': true,
+        'leistungen': true,
+        'ueber-uns': true,
+        'team': true,
+        'warum': true,
+        'features': true,
+        'prozess': true,
+        'kontakt': true,
+      });
+      return;
+    }
+
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
@@ -43,7 +60,7 @@ export default function Home() {
           }
         });
       },
-      { threshold: 0.15 }
+      { threshold: 0.1, rootMargin: '50px' }
     );
 
     document.querySelectorAll("[data-animate]").forEach((el) => {
@@ -78,7 +95,7 @@ export default function Home() {
       </div>
 
       {/* Header */}
-      <header className="fixed top-0 left-0 right-0 z-50 bg-[#212121]/98 backdrop-blur-xl border-b border-white/10">
+      <header className="fixed top-0 left-0 right-0 z-50 bg-[#212121]/98 border-b border-white/10 supports-[backdrop-filter]:backdrop-blur-xl">
         <nav className="container mx-auto px-6 py-4 flex items-center justify-between">
           <div className="flex items-center gap-3 -ml-2">
         <Image
@@ -158,7 +175,7 @@ export default function Home() {
 
         {/* Mobile Menu */}
         {mobileMenuOpen && (
-          <div className="md:hidden bg-[#212121]/98 backdrop-blur-xl border-t border-white/5">
+          <div className="md:hidden bg-[#212121]/98 border-t border-white/5 supports-[backdrop-filter]:backdrop-blur-xl">
             <div className="container mx-auto px-6 py-4 flex flex-col gap-3">
               <button
                 onClick={() => scrollToSection("leistungen")}
@@ -213,13 +230,14 @@ export default function Home() {
         <div className="absolute inset-0 z-0">
           <div className="absolute inset-0 bg-gradient-to-b from-[#212121]/60 via-[#212121]/85 to-[#212121] z-10" />
           <Image
-            src="https://images.unsplash.com/photo-1550751827-4bd374c3f58b?q=60&w=1400&auto=format&fit=crop"
+            src="https://images.unsplash.com/photo-1550751827-4bd374c3f58b?q=50&w=1200&auto=format&fit=crop"
             alt="Modern Technology Background"
             fill
             className="object-cover"
             priority
-            quality={70}
-            sizes="100vw"
+            quality={60}
+            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 100vw, 1400px"
+            loading="eager"
           />
         </div>
 
@@ -246,7 +264,7 @@ export default function Home() {
             }`}
           >
             <div className="text-center lg:text-left space-y-4">
-              <div className="inline-flex items-center gap-2 px-3 py-1.5 bg-white/5 backdrop-blur-sm border border-white/10 rounded-full mb-1">
+              <div className="inline-flex items-center gap-2 px-3 py-1.5 bg-white/5 border border-white/10 rounded-full mb-1 supports-[backdrop-filter]:backdrop-blur-sm">
                 <Sparkles className="w-4 h-4 text-[#ff1900]" strokeWidth={2} />
                 <span className="text-xs md:text-sm font-medium text-white/80">Österreichisches Unternehmen</span>
               </div>
@@ -272,7 +290,7 @@ export default function Home() {
                 </button>
                 <button
                   onClick={() => scrollToSection("leistungen")}
-                  className="px-8 py-3 bg-white/10 backdrop-blur-sm border border-white/20 hover:bg-white/20 hover:border-white/30 text-white text-base md:text-lg font-semibold rounded-lg transition-all duration-200 hover:-translate-y-0.5 hover:shadow-lg hover:shadow-white/10"
+                  className="px-8 py-3 bg-white/10 border border-white/20 hover:bg-white/20 hover:border-white/30 text-white text-base md:text-lg font-semibold rounded-lg transition-all duration-200 hover:-translate-y-0.5 hover:shadow-lg hover:shadow-white/10 supports-[backdrop-filter]:backdrop-blur-sm"
                 >
                   Leistungen
                 </button>
@@ -280,7 +298,7 @@ export default function Home() {
             </div>
             {/* Hero Facts */}
               <div className="space-y-3 lg:space-y-4">
-              <div className="bg-white/5 backdrop-blur-sm border border-white/10 rounded-xl p-4 transition-all duration-300 hover:bg-white/10 hover:border-white/20 hover:-translate-y-1">
+              <div className="bg-white/5 border border-white/10 rounded-xl p-4 transition-all duration-300 hover:bg-white/10 hover:border-white/20 hover:-translate-y-1 supports-[backdrop-filter]:backdrop-blur-sm">
                 <p className="text-[11px] font-semibold text-white/60 uppercase tracking-[0.15em] mb-1.5">
                   Schwerpunkte
                 </p>
@@ -298,7 +316,7 @@ export default function Home() {
                 ].map((stat, i) => {
                   const IconComponent = stat.icon;
                   return (
-                    <div key={i} className="bg-white/5 backdrop-blur-sm border border-white/10 rounded-xl p-4 text-left hover:bg-white/10 hover:border-white/20 hover:-translate-y-1 transition-all duration-300">
+                    <div key={i} className="bg-white/5 border border-white/10 rounded-xl p-4 text-left hover:bg-white/10 hover:border-white/20 hover:-translate-y-1 transition-all duration-300 supports-[backdrop-filter]:backdrop-blur-sm">
                       <IconComponent className="w-5 h-5 text-[#ff1900] mb-2" strokeWidth={2} />
                       <div className="text-2xl font-black text-white leading-none">{stat.value}</div>
                       <div className="text-[11px] font-medium text-white/60 mt-1 uppercase tracking-[0.15em]">
@@ -370,7 +388,7 @@ export default function Home() {
               return (
                 <div 
                   key={i}
-                  className={`group relative p-10 bg-white/5 backdrop-blur-sm border border-white/10 rounded-2xl hover:border-white/20 hover:bg-white/10 hover:-translate-y-2 hover:shadow-2xl hover:shadow-[#ff1900]/10 transition-all duration-300 ${isVisible['leistungen'] ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}
+                  className={`group relative p-10 bg-white/5 border border-white/10 rounded-2xl hover:border-white/20 hover:bg-white/10 hover:-translate-y-2 hover:shadow-2xl hover:shadow-[#ff1900]/10 transition-all duration-300 supports-[backdrop-filter]:backdrop-blur-sm ${isVisible['leistungen'] ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}
                   style={{ transitionDelay: `${i * 100}ms` }}
                 >
                   <div className="flex items-start gap-6">
@@ -406,7 +424,7 @@ export default function Home() {
               Über <span className="text-[#ff1900]">uns</span>
             </h2>
             
-              <div className="bg-white/5 backdrop-blur-sm border border-white/10 rounded-2xl p-12 md:p-16 space-y-8 text-left transition-all duration-500 hover:bg-white/10 hover:border-white/20 hover:-translate-y-1 hover:shadow-xl hover:shadow-[#ff1900]/5">
+              <div className="bg-white/5 border border-white/10 rounded-2xl p-12 md:p-16 space-y-8 text-left transition-all duration-500 hover:bg-white/10 hover:border-white/20 hover:-translate-y-1 hover:shadow-xl hover:shadow-[#ff1900]/5 supports-[backdrop-filter]:backdrop-blur-sm">
               <p className="text-2xl md:text-3xl text-white font-light leading-relaxed">
                 <span className="text-[#ff1900] font-bold">Plesnicar Solutions</span> ist ein österreichisches Unternehmen 
                 mit Fokus auf zuverlässige Umsetzung, schnelle Kommunikation und saubere Ergebnisse.
@@ -588,7 +606,7 @@ export default function Home() {
               return (
                 <div 
                   key={i}
-                  className={`text-center p-8 bg-white/5 backdrop-blur-sm border border-white/10 rounded-2xl hover:border-white/20 hover:bg-white/10 hover:-translate-y-2 hover:shadow-xl hover:shadow-black/40 transition-all duration-300 ${isVisible['ueber-uns'] ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}
+                  className={`text-center p-8 bg-white/5 border border-white/10 rounded-2xl hover:border-white/20 hover:bg-white/10 hover:-translate-y-2 hover:shadow-xl hover:shadow-black/40 transition-all duration-300 supports-[backdrop-filter]:backdrop-blur-sm ${isVisible['ueber-uns'] ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}
                   style={{ transitionDelay: `${i * 100}ms` }}
                 >
                   <div className="inline-flex items-center justify-center w-16 h-16 rounded-xl bg-[#ff1900]/20 mb-6 group-hover:bg-[#ff1900]/30 transition-colors duration-300">
@@ -656,7 +674,7 @@ export default function Home() {
               return (
                 <div
                   key={i}
-                  className={`p-8 bg-white/5 backdrop-blur-sm border border-white/10 rounded-2xl hover:border-white/20 hover:bg-white/10 transition-all duration-300 ${isVisible['ueber-uns'] ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}
+                  className={`p-8 bg-white/5 border border-white/10 rounded-2xl hover:border-white/20 hover:bg-white/10 transition-all duration-300 supports-[backdrop-filter]:backdrop-blur-sm ${isVisible['ueber-uns'] ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}
                   style={{ transitionDelay: `${i * 100}ms` }}
                 >
                   <div className="w-12 h-12 rounded-xl bg-[#ff1900]/20 flex items-center justify-center mb-6">
@@ -695,7 +713,7 @@ export default function Home() {
                 className={`relative ${isVisible['ueber-uns'] ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}
                 style={{ transitionDelay: `${i * 150}ms` }}
               >
-                <div className="p-8 bg-white/5 backdrop-blur-sm border border-white/10 rounded-2xl hover:border-white/20 hover:bg-white/10 transition-all duration-300 h-full">
+                <div className="p-8 bg-white/5 border border-white/10 rounded-2xl hover:border-white/20 hover:bg-white/10 transition-all duration-300 h-full supports-[backdrop-filter]:backdrop-blur-sm">
                   <div className="text-5xl font-black text-[#ff1900]/30 mb-4">{process.step}</div>
                   <h3 className="text-xl font-bold text-white mb-3">{process.title}</h3>
                   <p className="text-white/70 font-light leading-relaxed">{process.desc}</p>
@@ -725,7 +743,7 @@ export default function Home() {
 
           <div className={`grid md:grid-cols-2 gap-12 transition-opacity duration-1000 ${isVisible['kontakt'] ? 'opacity-100' : 'opacity-0'}`}>
             {/* Direkter Kontakt */}
-            <div className="p-10 bg-white/5 backdrop-blur-sm border border-white/10 rounded-2xl">
+            <div className="p-10 bg-white/5 border border-white/10 rounded-2xl supports-[backdrop-filter]:backdrop-blur-sm">
               <h3 className="text-3xl md:text-4xl font-black text-white">
                 Direkter <span className="text-[#ff1900]">Kontakt</span>
               </h3>
@@ -796,7 +814,7 @@ export default function Home() {
                 </div>
               </div>
 
-              <div className="mt-4 p-6 bg-white/5 backdrop-blur-sm border border-white/10 rounded-xl">
+              <div className="mt-4 p-6 bg-white/5 border border-white/10 rounded-xl supports-[backdrop-filter]:backdrop-blur-sm">
                 <h4 className="font-semibold text-white mb-3">Damit wir schnell helfen können</h4>
                 <p className="text-white/70 font-light text-sm leading-relaxed mb-4">
                   Wenn Sie uns kurz diese Punkte nennen, sparen wir Zeit und können schneller ein passendes Angebot erstellen:
@@ -820,7 +838,7 @@ export default function Home() {
             {/* Contact Info */}
             <div className="space-y-6">
               {/* Google Maps */}
-              <div className="p-10 bg-white/5 backdrop-blur-sm border border-white/10 rounded-2xl">
+              <div className="p-10 bg-white/5 border border-white/10 rounded-2xl supports-[backdrop-filter]:backdrop-blur-sm">
                 <h3 className="text-2xl font-bold mb-6 text-white">Unser Standort</h3>
                 <div className="w-full h-64 rounded-lg overflow-hidden border border-white/10">
                   <iframe
@@ -840,7 +858,7 @@ export default function Home() {
                 </p>
               </div>
 
-              <div className="p-10 bg-white/5 backdrop-blur-sm border border-white/10 rounded-2xl">
+              <div className="p-10 bg-white/5 border border-white/10 rounded-2xl supports-[backdrop-filter]:backdrop-blur-sm">
                 <h3 className="text-2xl font-bold mb-8 text-white">Kontaktinformationen</h3>
                 <div className="space-y-6">
                   {[
