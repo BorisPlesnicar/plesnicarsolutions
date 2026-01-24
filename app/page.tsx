@@ -58,7 +58,13 @@ export default function Home() {
   const scrollToSection = (id: string) => {
     const element = document.getElementById(id);
     if (element) {
-      element.scrollIntoView({ behavior: "smooth", block: "start" });
+      const headerOffset = 80;
+      const elementPosition = element.getBoundingClientRect().top;
+      const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+      window.scrollTo({
+        top: offsetPosition,
+        behavior: "smooth"
+      });
       setMobileMenuOpen(false);
     }
   };
@@ -259,14 +265,14 @@ export default function Home() {
               <div className="flex flex-col sm:flex-row gap-3 justify-center lg:justify-start pt-2">
                 <button
                   onClick={() => scrollToSection("kontakt")}
-                  className="group px-8 py-3 bg-[#ff1900] hover:bg-[#e61700] text-white text-base md:text-lg font-semibold rounded-lg transition-all duration-200 shadow-lg shadow-[#ff1900]/30 hover:shadow-[#ff1900]/50 flex items-center justify-center gap-2 hover:-translate-y-0.5"
+                  className="group px-8 py-3 bg-[#ff1900] hover:bg-[#e61700] text-white text-base md:text-lg font-semibold rounded-lg transition-all duration-200 shadow-lg shadow-[#ff1900]/30 hover:shadow-xl hover:shadow-[#ff1900]/50 flex items-center justify-center gap-2 hover:-translate-y-0.5"
                 >
                   Angebot anfragen
                   <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" strokeWidth={2} />
                 </button>
                 <button
                   onClick={() => scrollToSection("leistungen")}
-                  className="px-8 py-3 bg-white/10 backdrop-blur-sm border border-white/20 hover:bg-white/20 hover:border-white/30 text-white text-base md:text-lg font-semibold rounded-lg transition-all duration-200 hover:-translate-y-0.5"
+                  className="px-8 py-3 bg-white/10 backdrop-blur-sm border border-white/20 hover:bg-white/20 hover:border-white/30 text-white text-base md:text-lg font-semibold rounded-lg transition-all duration-200 hover:-translate-y-0.5 hover:shadow-lg hover:shadow-white/10"
                 >
                   Leistungen
                 </button>
@@ -308,7 +314,7 @@ export default function Home() {
       </section>
 
       {/* Leistungen Section */}
-      <section id="leistungen" className="py-32 px-6 relative" data-animate>
+      <section id="leistungen" className="py-32 px-6 relative border-t border-white/5" data-animate>
         <div className="container mx-auto max-w-7xl relative z-10">
           <div className={`text-center mb-20 transition-opacity duration-1000 ${isVisible['leistungen'] ? 'opacity-100' : 'opacity-0'}`}>
             <h2 className="text-4xl md:text-5xl lg:text-6xl font-black mb-6 tracking-tight">
@@ -364,7 +370,7 @@ export default function Home() {
               return (
                 <div 
                   key={i}
-                  className={`group relative p-10 bg-white/5 backdrop-blur-sm border border-white/10 rounded-2xl hover:border-white/20 hover:bg-white/10 hover:-translate-y-2 hover:shadow-xl hover:shadow-black/40 transition-all duration-300 ${isVisible['leistungen'] ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}
+                  className={`group relative p-10 bg-white/5 backdrop-blur-sm border border-white/10 rounded-2xl hover:border-white/20 hover:bg-white/10 hover:-translate-y-2 hover:shadow-2xl hover:shadow-[#ff1900]/10 transition-all duration-300 ${isVisible['leistungen'] ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}
                   style={{ transitionDelay: `${i * 100}ms` }}
                 >
                   <div className="flex items-start gap-6">
@@ -393,14 +399,14 @@ export default function Home() {
       </section>
 
       {/* Über uns Section */}
-      <section id="ueber-uns" className="py-32 px-6 bg-white/[0.02] relative" data-animate>
+      <section id="ueber-uns" className="py-32 px-6 bg-white/[0.02] relative border-t border-white/5" data-animate>
         <div className="container mx-auto max-w-5xl relative z-10">
           <div className={`text-center transition-opacity duration-1000 ${isVisible['ueber-uns'] ? 'opacity-100' : 'opacity-0'}`}>
             <h2 className="text-4xl md:text-5xl lg:text-6xl font-black mb-12 tracking-tight">
               Über <span className="text-[#ff1900]">uns</span>
             </h2>
             
-              <div className="bg-white/5 backdrop-blur-sm border border-white/10 rounded-2xl p-12 md:p-16 space-y-8 text-left transition-all duration-500 hover:bg-white/10 hover:border-white/20 hover:-translate-y-1">
+              <div className="bg-white/5 backdrop-blur-sm border border-white/10 rounded-2xl p-12 md:p-16 space-y-8 text-left transition-all duration-500 hover:bg-white/10 hover:border-white/20 hover:-translate-y-1 hover:shadow-xl hover:shadow-[#ff1900]/5">
               <p className="text-2xl md:text-3xl text-white font-light leading-relaxed">
                 <span className="text-[#ff1900] font-bold">Plesnicar Solutions</span> ist ein österreichisches Unternehmen 
                 mit Fokus auf zuverlässige Umsetzung, schnelle Kommunikation und saubere Ergebnisse.
@@ -418,7 +424,7 @@ export default function Home() {
       </section>
 
       {/* Team Section */}
-      <section id="team" className="py-32 px-6 bg-white/[0.02] relative" data-animate>
+      <section id="team" className="py-32 px-6 bg-white/[0.02] relative border-t border-white/5" data-animate>
         <div className="container mx-auto max-w-7xl">
           <div className={`text-center mb-20 transition-opacity duration-1000 ${isVisible['ueber-uns'] ? 'opacity-100' : 'opacity-0'}`}>
             <h2 className="text-4xl md:text-5xl lg:text-6xl font-black mb-6 tracking-tight">
@@ -436,6 +442,7 @@ export default function Home() {
                 role: "IT-Spezialist & Bau-Beratung",
                 education: "HTL Krems IT, Freelancer",
                 image: "/portraits/boris.jpg",
+                isOwner: true,
                 expertise: [
                   "PC-Bau und Hardware-Konfiguration",
                   "Grafikdesign und Corporate Design",
@@ -446,9 +453,10 @@ export default function Home() {
               },
               {
                 name: "Ing. Dietmar Plesnicar",
-                role: "Bau-Beratung & Handel",
+                role: "Unterstützung Bau-Beratung & Handel",
                 education: "Ingenieur",
                 image: "/portraits/dietmar.png",
+                isOwner: false,
                 expertise: [
                   "40+ Jahre Erfahrung im Bauwesen",
                   "Bauberatung und Projektplanung",
@@ -460,7 +468,11 @@ export default function Home() {
             ].map((person, i) => (
               <div
                 key={i}
-                className={`p-10 bg-white/5 backdrop-blur-sm border border-white/10 rounded-2xl hover:border-white/20 hover:bg-white/10 hover:-translate-y-2 hover:shadow-xl hover:shadow-black/40 transition-all duration-300 ${isVisible['ueber-uns'] ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}
+                className={`backdrop-blur-sm border rounded-2xl transition-all duration-300 ${isVisible['ueber-uns'] ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'} ${
+                  person.isOwner 
+                    ? 'p-10 bg-white/5 border-[#ff1900]/40 bg-gradient-to-br from-white/5 to-[#ff1900]/10 hover:border-[#ff1900]/60 hover:bg-gradient-to-br hover:from-white/10 hover:to-[#ff1900]/15 hover:-translate-y-2 hover:shadow-xl hover:shadow-[#ff1900]/20' 
+                    : 'p-8 bg-white/3 border-white/5 opacity-90 hover:border-white/10 hover:bg-white/5 hover:-translate-y-1 hover:shadow-lg'
+                }`}
                 style={{ transitionDelay: `${i * 150}ms` }}
               >
                 {/* Profilbild */}
@@ -481,25 +493,36 @@ export default function Home() {
                     )}
                   </div>
                   <div className="flex-1 pt-1">
-                    <h3 className="text-2xl font-bold text-white mb-2">{person.name}</h3>
-                    <p className="text-lg text-[#ff1900] font-semibold mb-3">{person.role}</p>
+                    <div className="flex items-center gap-2 mb-2 flex-wrap">
+                      <h3 className={`font-bold text-white ${person.isOwner ? 'text-2xl' : 'text-xl'}`}>{person.name}</h3>
+                      {person.isOwner ? (
+                        <span className="px-2.5 py-1 bg-[#ff1900] text-white text-xs font-bold rounded uppercase tracking-wide shadow-lg shadow-[#ff1900]/30">
+                          Inhaber
+                        </span>
+                      ) : (
+                        <span className="px-2.5 py-1 bg-white/10 border border-white/20 text-white/70 text-xs font-medium rounded uppercase tracking-wide">
+                          Unterstützung
+                        </span>
+                      )}
+                    </div>
+                    <p className={`font-semibold mb-3 ${person.isOwner ? 'text-lg text-[#ff1900]' : 'text-base text-white/60'}`}>{person.role}</p>
                     <p className="text-sm text-white/70 font-light">{person.education}</p>
                   </div>
                 </div>
                 <div className="space-y-3">
-                  <h4 className="text-sm font-semibold text-white/90 uppercase tracking-wide">Kompetenzen</h4>
+                  <h4 className={`text-sm font-semibold uppercase tracking-wide ${person.isOwner ? 'text-white/90' : 'text-white/60'}`}>Kompetenzen</h4>
                   <ul className="space-y-2">
                     {person.expertise.map((item, idx) => (
-                      <li key={idx} className="flex items-start gap-3 text-white/80">
-                        <span className="text-[#ff1900] mt-1.5 font-bold">•</span>
+                      <li key={idx} className={`flex items-start gap-3 ${person.isOwner ? 'text-white/80' : 'text-white/60'}`}>
+                        <span className={`mt-1.5 font-bold ${person.isOwner ? 'text-[#ff1900]' : 'text-white/40'}`}>•</span>
                         <span className="font-light leading-relaxed text-sm">{item}</span>
                       </li>
                     ))}
                   </ul>
                 </div>
                 {/* Contact Details */}
-                <div className="mt-6 pt-6 border-t border-white/10 space-y-3">
-                  <h4 className="text-sm font-semibold text-white/90 uppercase tracking-wide mb-3">Kontakt</h4>
+                <div className={`mt-6 pt-6 border-t space-y-3 ${person.isOwner ? 'border-white/10' : 'border-white/5'}`}>
+                  <h4 className={`text-sm font-semibold uppercase tracking-wide mb-3 ${person.isOwner ? 'text-white/90' : 'text-white/60'}`}>Kontakt</h4>
                   {person.name === "Boris Plesnicar" ? (
                     <>
                       <a 
@@ -689,7 +712,7 @@ export default function Home() {
       </section>
 
       {/* Kontakt Section */}
-      <section id="kontakt" className="py-32 px-6 bg-white/[0.02] relative" data-animate>
+      <section id="kontakt" className="py-32 px-6 bg-white/[0.02] relative border-t border-white/5" data-animate>
         <div className="container mx-auto max-w-7xl">
           <div className={`text-center mb-20 transition-opacity duration-1000 ${isVisible['kontakt'] ? 'opacity-100' : 'opacity-0'}`}>
             <h2 className="text-4xl md:text-5xl lg:text-6xl font-black mb-6 tracking-tight">
