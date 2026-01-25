@@ -24,3 +24,30 @@ body {
   font-family: var(--font-montserrat), system-ui, sans-serif;
   overflow-x: hidden;
 }
+
+/* iOS Safari / Animation Fallback: Ensure content is visible if JS fails or animations don't init */
+/* Critical: Content must be visible by default, only hide if animations are confirmed working */
+html:not(.animations-ready) [data-animate],
+html:not(.animations-ready) [data-animate] * {
+  opacity: 1 !important;
+  transform: none !important;
+  visibility: visible !important;
+}
+
+/* Only apply opacity transitions if animations are confirmed ready */
+html.animations-ready [data-animate] {
+  transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+}
+
+/* Safety net: After 2 seconds, force visibility if still hidden */
+@keyframes forceVisible {
+  to {
+    opacity: 1 !important;
+    transform: none !important;
+    visibility: visible !important;
+  }
+}
+
+html [data-animate][style*="opacity: 0"] {
+  animation: forceVisible 0.1s ease-out 2s forwards;
+}

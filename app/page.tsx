@@ -31,14 +31,84 @@ import {
 } from "lucide-react";
 
 export default function Home() {
-  const [isVisible, setIsVisible] = useState<{ [key: string]: boolean }>({});
+  // Initialize with all sections visible as fallback (iOS Safari safety)
+  const [isVisible, setIsVisible] = useState<{ [key: string]: boolean }>({
+    'hero': true,
+    'leistungen': true,
+    'ueber-uns': true,
+    'team': true,
+    'warum': true,
+    'features': true,
+    'prozess': true,
+    'kontakt': true,
+  });
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [animationsReady, setAnimationsReady] = useState(false);
 
   useEffect(() => {
-    // Skip IntersectionObserver on mobile for better performance
+    // Robust iOS Safari detection
+    const isIOS = /iP(hone|od|ad)/.test(navigator.userAgent);
+    const isSafari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent);
     const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
-    if (isMobile) {
-      // Show all sections immediately on mobile
+    
+    // Show all sections immediately on iOS Safari or mobile
+    if (isIOS || (isSafari && isMobile) || isMobile) {
+      const allSections = {
+        'hero': true,
+        'leistungen': true,
+        'ueber-uns': true,
+        'team': true,
+        'warum': true,
+        'features': true,
+        'prozess': true,
+        'kontakt': true,
+      };
+      setIsVisible(allSections);
+      setAnimationsReady(true);
+      // Add class to document for CSS fallback
+      document.documentElement.classList.add('animations-ready');
+      
+      // Debug mode
+      if (typeof window !== 'undefined' && window.location.search.includes('debug=1')) {
+        console.log('[Debug] iOS Safari detected, animations disabled');
+        console.log('[Debug] All sections set to visible:', allSections);
+      }
+      return;
+    }
+
+    // Desktop: Use IntersectionObserver
+    try {
+      const observer = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+              setIsVisible((prev) => ({ ...prev, [entry.target.id]: true }));
+            }
+          });
+        },
+        { threshold: 0.1, rootMargin: '50px' }
+      );
+
+      const elements = document.querySelectorAll("[data-animate]");
+      elements.forEach((el) => {
+        observer.observe(el);
+      });
+
+      setAnimationsReady(true);
+      document.documentElement.classList.add('animations-ready');
+
+      // Debug mode
+      if (typeof window !== 'undefined' && window.location.search.includes('debug=1')) {
+        console.log('[Debug] IntersectionObserver initialized');
+        console.log('[Debug] Elements with data-animate:', elements.length);
+      }
+
+      return () => {
+        observer.disconnect();
+      };
+    } catch (error) {
+      // Fallback if IntersectionObserver fails
+      console.error('IntersectionObserver failed, showing all sections:', error);
       setIsVisible({
         'hero': true,
         'leistungen': true,
@@ -49,27 +119,9 @@ export default function Home() {
         'prozess': true,
         'kontakt': true,
       });
-      return;
+      setAnimationsReady(true);
+      document.documentElement.classList.add('animations-ready');
     }
-
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            setIsVisible((prev) => ({ ...prev, [entry.target.id]: true }));
-          }
-        });
-      },
-      { threshold: 0.1, rootMargin: '50px' }
-    );
-
-    document.querySelectorAll("[data-animate]").forEach((el) => {
-      observer.observe(el);
-    });
-
-    return () => {
-      observer.disconnect();
-    };
   }, []);
 
   const scrollToSection = (id: string) => {
@@ -99,12 +151,14 @@ export default function Home() {
         <nav className="container mx-auto px-6 py-4 flex items-center justify-between">
           <div className="flex items-center gap-3 -ml-2">
         <Image
-              src="/logos/LogoTEXTB.png"
-              alt="Plesnicar Solutions Logo"
-              width={200}
-              height={60}
-              className="h-14 md:h-16 w-auto"
-          priority
+            src="/logos/LogoTEXTB.png"
+            alt="Plesnicar Solutions Logo"
+            width={200}
+            height={60}
+            className="h-14 md:h-16 w-auto"
+            priority
+            quality={85}
+            sizes="(max-width: 768px) 180px, 200px"
         />
           </div>
           <div className="hidden lg:flex items-center gap-1">
