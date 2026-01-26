@@ -157,8 +157,7 @@ export default function Home() {
             height={60}
             className="h-14 md:h-16 w-auto"
             priority
-            quality={85}
-            sizes="(max-width: 768px) 180px, 200px"
+            unoptimized
         />
           </div>
           <div className="hidden lg:flex items-center gap-1">
